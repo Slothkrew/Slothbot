@@ -1,0 +1,45 @@
+#!/usr/bin/ruby -w
+#
+# Slothbot
+#
+
+require_relative 'lib/slothbot'
+
+server  = 'chat.freenode.net'
+channel = '#slothkrew'
+nick    = 'slothbot'
+
+ARGV.each_with_index do |arg, i|
+  arg == '-s' ? server = ARGV[i+1] : server
+  arg == '-c' ? channel = "##{ARGV[i+1]}" : channel
+  arg == '-n' ? nick = ARGV[i+1] : nick
+end
+
+slothbot = Slothbot::Bot.new do
+  configure do |c|
+    c.nick = nick
+    c.user = nick
+    c.server = server
+    c.port = 6697
+    c.ssl.use = true
+    c.channels = [channel]
+    c.plugins.plugins = [Slothbot::Plugins::Blurt]
+		c.plugins.options[Slothbot::Plugins::Blurt] = {
+			:phrases => [
+        "Sorry? I was picturing Whore Island.",
+        "Johnny Bench called.",
+        "You want ants? Cuz this is how we get ants.",
+        "Come on, twenty two black, twenty two black!",
+        "I am drunk, or I wouldn't be talking to you.",
+        "Uh, since when?",
+        "Yeah, so we may as well gloss over... almost all of it.",
+        "Shoot, bitch! Democracy's at stake!",
+        "Oh my God, you killed a hooker.",
+        "Well if you learned anything today, it won't be the truth.",
+      ]
+    }
+  end
+end
+
+slothbot.start
+
