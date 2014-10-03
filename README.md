@@ -6,7 +6,8 @@ up with this bot. Now we can go back to sleeping and living slow.
 Requirements
 ========
 So far:
-	* [Cinch](https://github.com/cinchrb/cinch)
+
+* [Cinch](https://github.com/cinchrb/cinch)
 
 License
 ========
