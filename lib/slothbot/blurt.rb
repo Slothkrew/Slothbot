@@ -12,16 +12,20 @@ module Slothbot
     class Blurt
 
       include Cinch::Plugin
-
+        	
       match "blurt"
       listen_to :blurt, :method => :blurt
 
       def blurt
         if config[:phrases]
           @bot.channels.each do |channel|
-            Channel(channel).send(
-              config[:phrases][Random.rand(config[:phrases].length)]
-            )
+            phrase = ''
+            loop do
+              phrase = config[:phrases][Random.rand(config[:phrases].length)]
+              break if phrase != @last_phrase
+						end
+            @last_phrase = phrase
+            Channel(channel).send(phrase)
           end
         else
           debug @@no_phrases
@@ -34,6 +38,7 @@ module Slothbot
 
       def initialize(*)
         super
+        @last_phrase = nil
         if config[:phrases]
           Thread.new do |t|
             loop do

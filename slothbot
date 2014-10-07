@@ -5,14 +5,35 @@
 
 require_relative 'lib/slothbot'
 
+DEFAULT_PHRASES = [
+  "stop him in his tracks, show him that i am ruthless",
+  "time to pay the piper",
+  "this is the season to let the real motherfuckin gs in",
+  "boy you should've known by now",
+  "approach me like you hard, motherfucker i'm gonna bank you",
+  "i never met an og who never did shit wrong",
+  "claiming my city, but dre, you ain't from compton",
+  "this is going out to your studio gangsters",
+  "never ever once have you ran with the turf",
+  "smoother then a bitch but portray the role of gangster",
+]
+
 server  = 'chat.freenode.net'
 channel = '#slothkrew'
 nick    = 'slothbot'
+phrases = DEFAULT_PHRASES
+
+def load_phrases(path)
+  File.open(path, 'r') do |file|
+    phrases = file.read.strip.lines
+  end
+end
 
 ARGV.each_with_index do |arg, i|
   arg == '-s' ? server = ARGV[i+1] : server
   arg == '-c' ? channel = "##{ARGV[i+1]}" : channel
   arg == '-n' ? nick = ARGV[i+1] : nick
+  arg == '-p' ? phrases = load_phrases(ARGV[i+1]) : phrases
 end
 
 slothbot = Slothbot::Bot.new do
@@ -24,19 +45,8 @@ slothbot = Slothbot::Bot.new do
     c.ssl.use = true
     c.channels = [channel]
     c.plugins.plugins = [Slothbot::Plugins::Blurt]
-		c.plugins.options[Slothbot::Plugins::Blurt] = {
-			:phrases => [
-        "Sorry? I was picturing Whore Island.",
-        "Johnny Bench called.",
-        "You want ants? Cuz this is how we get ants.",
-        "Come on, twenty two black, twenty two black!",
-        "I am drunk, or I wouldn't be talking to you.",
-        "Uh, since when?",
-        "Yeah, so we may as well gloss over... almost all of it.",
-        "Shoot, bitch! Democracy's at stake!",
-        "Oh my God, you killed a hooker.",
-        "Well if you learned anything today, it won't be the truth.",
-      ]
+    c.plugins.options[Slothbot::Plugins::Blurt] = {
+      :phrases => phrases
     }
   end
 end
