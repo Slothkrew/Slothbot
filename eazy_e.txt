@@ -1,4 +1,11 @@
 
+#
+# eazybot
+#
+# A phrase collection for blurt so you can fill your channel with the
+# subtle poetry of "Real Mutherphukkin G's" by Eazy E.
+#
+
 stop him in his tracks, show him that i am ruthless
 time to pay the piper
 this is the season to let the real motherfuckin gs in

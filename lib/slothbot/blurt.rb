@@ -12,7 +12,7 @@ module Slothbot
     class Blurt
 
       include Cinch::Plugin
-        	
+					
       match "blurt"
       listen_to :blurt, :method => :blurt
 

@@ -3,13 +3,18 @@ Slothbot
 We want to do a lot of things. But we don't want to lift a finger. So we came
 up with this bot. Now we can go back to sleeping and living slow.
 
-Currently Slothbot doesn't do a lot, but why should he?
+Features
+========
+
+* Blurt lines from a text file at intervals or on demand (!blurt).
+* Convert between currencies (!convert quantity currency-a currency-b)
 
 Requirements
 ========
 So far:
 
 * [Cinch](https://github.com/cinchrb/cinch)
+* [Free Currency Converter API](http://freecurrencyconverterapi.com)
 
 License
 ========
