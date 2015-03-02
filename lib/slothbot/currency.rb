@@ -1,73 +1,41 @@
 
-require 'cinch'
 require 'json'
 require 'net/http'
 
+##
+# messy PoC based on the old module, pay no mind
+
 module Slothbot
-
-  module Plugins
-		
-    ##
-    # A plugin that converts currencies.
-
-    # XXX Works, could do with a cleanup and some more stringent error
-    #     handling.
-
-    class Currency
-
-      include Cinch::Plugin
-					
-      match /convert \d{1,15}(\.\d{1,5})? [a-zA-Z]{3} [a-zA-Z]{3}/
-      listen_to :convert, :method => :execute
-
-			##
-			# !convert <number> <currency-a> <currency-b>
-
-			def execute(message)
-				
-				_, quantity, currency_a, currency_b = message.message.split /\s/
-				currency_a.upcase!
-				currency_b.upcase!
-				quantity = quantity.to_f
-
-				begin
-					v = quantity * get_multiplier(currency_a, currency_b)
-				rescue
-					debug "An invalid currency was provided."
-				else
-					response = "#{quantity} #{currency_a} = #{v} #{currency_b}"
-					@bot.channels.each { |c| Channel(c).send response }
-				end
-			
+	class CurrencyConverter
+		def convert(quantity, currency_a, currency_b)
+			sloth_mode = false
+			if currency_a == :sloth
+				sloth_mode = :from
+				currency_a = :usd
+			elsif currency_b == :sloth
+				sloth_mode = :to
+				currency_b = :usd
 			end
-
-      def get_multiplier(currency_a, currency_b)
-
-				pair_key = "#{currency_a}_#{currency_b}"
-				queries = @queries.map { |k,v| "#{k}=#{v}" }.join '&'
-				queries.sub! '{currency}', pair_key
-				response = Net::HTTP.get(
-					"#{@fqdn}",
-					"#{@resource}?#{queries}")
-				
-				if response.strip != '{}'
-					return JSON::parse(response)[pair_key]['val']
-				else
-					throw Exception.new "An invalid currency was provided."
-				end
-			
+			c_a, c_b = currency_a.to_s.upcase, currency_b.to_s.upcase
+			pair_key = "#{c_a}_#{c_b}"
+			queries = @queries.map { |k,v| "#{k}=#{v}" }.join '&'
+			queries.sub! '{currency}', pair_key
+			response = Net::HTTP.get @fqdn, "#{@resource}?#{queries}"
+			if response.strip != '{}'
+				value = JSON.parse(response)[pair_key]['val'].to_f * quantity
+				value = value * @sloth_multiplier if sloth_mode == :from
+				value = value / @sloth_multiplier if sloth_mode == :to
+				return value.round 3
+			else
+				throw Exception.new "An invalid currency was provided."
 			end
+		end
 
-			def initialize(*)
-				super
-				@fqdn = 'www.freecurrencyconverterapi.com'
-				@resource = '/api/v2/convert'
-				@queries = { 'q' => '{currency}', 'compact' => 'y' }
-			end
-
-    end
-
-  end
-
+		def initialize
+			@fqdn = 'www.freecurrencyconverterapi.com'
+			@resource = '/api/v2/convert'
+			@queries = { 'q' => '{currency}', 'compact' => 'y' }
+			@sloth_multiplier = 2100
+		end
+	end
 end
-

@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+#
+# slothbot
+# sloth bot best bot
+
+require 'cinch'
+require 'slothbot'
+
+wheel = Slothbot::Modules::Wheel.new
+currency = Slothbot::Modules::Currency.new
+slothbot = Slothbot::Bot.new
+slothbot.load_module currency
+slothbot.load_module wheel
+slothbot.bind_command :convert, currency, :convert
+slothbot.bind_command :wheel, wheel, :wheel
+
+bot = Cinch::Bot.new do
+	configure do |c|
+		raise Exception.new "Read the cinch docs, configure the bot. JSON-based configuration coming."
+	end
+
+	on :message do |m|
+		if m.message[0] == '!'
+			args = m.message.split
+			command = args.shift[1..-1].to_sym
+			if slothbot.bound_command? command
+				m.reply slothbot.run_command command, *args
+			end
+		end
+	end
+end
+
+bot.start
+

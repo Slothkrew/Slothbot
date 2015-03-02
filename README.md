@@ -6,8 +6,8 @@ up with this bot. Now we can go back to sleeping and living slow.
 Features
 ========
 
-* Blurt lines from a text file at intervals or on demand (!blurt).
-* Convert between currencies (!convert quantity currency-a currency-b)
+* A messy implementation of a currency converter because whatever.
+* A wheel of misfortune.
 
 Requirements
 ========

@@ -1,0 +1,14 @@
+#!/usr/bin/ruby -w
+#
+# wheel
+# glorious wheel, best wheel
+
+require 'slothbot'
+
+case ARGV[0]
+when 'sentence'
+	print "#{Slothbot::Wheel.new.spin}\n\n"
+else
+	print "Usage: wheel [sentence]\n\n"
+end
+
