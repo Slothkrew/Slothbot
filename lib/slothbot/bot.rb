@@ -48,6 +48,22 @@ module Slothbot
 				@commands[symbol] = block
 			end
 
+			##
+			# Modules that declare an export expose a callable meant to be called
+			# by other modules.
+
+			#def export(symbol, &block)
+			#	raise NotImplementedError.new
+			#end
+
+			##
+			# Modules that declare an import expect export(s) to be bound to it in
+			# order to serve it. Imports may be required.
+
+			#def import(symbol, required=false)
+			#	raise NotImplementedError.new
+			#end
+
 			def initialize
 				@commands = {}
 			end
@@ -90,12 +106,31 @@ module Slothbot
 			end
 		end
 
+		##
+		# A socket for marshalling commands to a running bot.
+
+		class Socket < Module
+			stateful
+
+			def initialize
+				@signals = {}
+				#export :subscribe do |subscriber,signal|
+				#	@signals[signal] = [] unless @signals.include? signal
+				#	@signals[signal] << subscriber
+				#end
+			end
+		end
+
 		class Wheel < Module
 			def initialize
 				super
 				@wheel = Slothbot::Wheel.new
-				define_command :wheel do
-					@wheel.spin
+				define_command :wheel do |*args|
+					if args[0] == 'about' and args.length == 1
+						"glorious wheel best wheel"
+					else
+						@wheel.spin
+					end
 				end
 			end
 		end
