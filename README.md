@@ -8,6 +8,7 @@ Features
 
 * A messy implementation of a currency converter because whatever.
 * A wheel of misfortune.
+* An URL utility thing for sharing links like a sir.
 
 Requirements
 ========
