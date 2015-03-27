@@ -18,19 +18,19 @@ slothbot.bind_command :wheel, wheel, :wheel
 slothbot.bind_command :url, links, :url
 
 bot = Cinch::Bot.new do
-	configure do |c|
-		raise NotImplementedError.new "configure this; refer to cinch docs"
-	end
+  configure do |c|
+    raise NotImplementedError.new "configure this; refer to cinch docs"
+  end
 
-	on :message do |m|
-		if m.message[0] == '!'
-			args = m.message.split
-			command = args.shift[1..-1].to_sym
-			if slothbot.bound_command? command
-				m.reply slothbot.run_command command, { :from => m.user.to_s }, *args
-			end
-		end
-	end
+  on :message do |m|
+    if m.message[0] == '!'
+      args = m.message.split
+      command = args.shift[1..-1].to_sym
+      if slothbot.bound_command? command
+        m.reply slothbot.run_command command, { :from => m.user.to_s }, *args
+      end
+    end
+  end
 end
 
 bot.start
