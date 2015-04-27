@@ -240,6 +240,8 @@ module Slothbot
             latest_url
           when 'list'
             list_urls context, *args
+					when 'find'
+						find_urls context, *args
           when 'clear'
             clear_user_urls context
             nil
@@ -255,6 +257,12 @@ module Slothbot
           end
         end
       end
+
+			def find_urls(context, search=nil)
+				return "You gotta search for something, man!" if search.nil?
+				urls = @registry.each_by_search(search).collect { |url| url.to_s }
+				return urls.length > 0 ? urls.join("\n") : "Yeah, that's not a thing."
+			end
 
       def list_urls(context, user=nil)
         if user.nil?
