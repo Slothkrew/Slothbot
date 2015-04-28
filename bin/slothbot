@@ -8,7 +8,7 @@ require 'slothbot'
 
 wheel = Slothbot::Modules::Wheel.new
 currency = Slothbot::Modules::Currency.new
-links = Slothbot::Modules::URLs.new # PATH TO SQLITE DATABASE
+links = Slothbot::Modules::URLs.new '/home/sjums/urls.db' # PATH TO SQLITE DATABASE
 slothbot = Slothbot::Bot.new
 slothbot.load_module currency
 slothbot.load_module wheel
@@ -19,7 +19,10 @@ slothbot.bind_command :url, links, :url
 
 bot = Cinch::Bot.new do
   configure do |c|
-    raise NotImplementedError.new "configure this; refer to cinch docs"
+    c.server = 'irc.freenode.org'
+    c.nick = 'slothbootie'
+    c.channels = ['#sjumsie']
+    
   end
 
   on :message do |m|

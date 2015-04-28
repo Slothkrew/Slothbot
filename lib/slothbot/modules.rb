@@ -191,6 +191,7 @@ module Slothbot
        | !url clear               | clear your urls     |
        | !url latest|newest       | get the latest link |
        | !url list [nick]         | list urls           |
+       | !url find <string>       | list urls by search |
        **************************************************
       eos
 
@@ -240,8 +241,8 @@ module Slothbot
             latest_url
           when 'list'
             list_urls context, *args
-					when 'find'
-						find_urls context, *args
+          when 'find'
+            find_urls context, *args
           when 'clear'
             clear_user_urls context
             nil
@@ -258,11 +259,14 @@ module Slothbot
         end
       end
 
-			def find_urls(context, search=nil)
-				return "You gotta search for something, man!" if search.nil?
-				urls = @registry.each_by_search(search).collect { |url| url.to_s }
-				return urls.length > 0 ? urls.join("\n") : "Yeah, that's not a thing."
-			end
+      def find_urls(context, *args)
+	search = args[0..-1].join(' ').to_s
+	puts "DEBUG: args: " + args.inspect
+	puts "DEBUG: search: " + search.inspect
+        return "You gotta search for something, man!" if search.length == 0
+        urls = @registry.each_by_search(search).collect { |url| url.to_s }
+        return urls.length > 0 ? urls.join("\n") : "Yeah, that's not a thing."
+      end
 
       def list_urls(context, user=nil)
         if user.nil?
