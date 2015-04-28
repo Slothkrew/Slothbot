@@ -261,8 +261,6 @@ module Slothbot
 
       def find_urls(context, *args)
 	search = args[0..-1].join(' ').to_s
-	puts "DEBUG: args: " + args.inspect
-	puts "DEBUG: search: " + search.inspect
         return "You gotta search for something, man!" if search.length == 0
         urls = @registry.each_by_search(search).collect { |url| url.to_s }
         return urls.length > 0 ? urls.join("\n") : "Yeah, that's not a thing."
