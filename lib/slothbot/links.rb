@@ -73,7 +73,7 @@ module Slothbot
 
 		def each_by_search(search)
 			urls = []
-			@db.execute("SELECT * FROM urls WHERE (url like '%?%' or summary like '%?%')", [search, search]) do |row|
+			@db.execute("SELECT * FROM urls WHERE (url LIKE ? OR summary LIKE ?)", ['%' + search + '%', '%' + search + '%']) do |row|
 				url = unpack_row row
 				yield url if block_given?
 				urls << url
