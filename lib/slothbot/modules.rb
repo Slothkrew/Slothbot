@@ -245,15 +245,13 @@ module Slothbot
             find_urls context, *args
           when 'clear'
             clear_user_urls context
-            nil
           when 'help'
             @@help.lines.collect { |line| line.strip }.join "\n"
           when 'delete'
             delete_url context, *args
           when 'add'
             add_url context, *args
-            nil
-          default
+          else
             "lol wat"
           end
         end
