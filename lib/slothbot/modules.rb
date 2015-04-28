@@ -192,6 +192,7 @@ module Slothbot
        | !url latest|newest       | get the latest link |
        | !url list [nick]         | list urls           |
        | !url find <string>       | list urls by search |
+       | !url count [nick]        | you guessed it!     |
        **************************************************
       eos
 
@@ -202,6 +203,14 @@ module Slothbot
 
       def clear_user_urls(context)
         @registry.delete_all_by context[:from]
+      end
+
+      def count_urls(context, user=nil)
+        if user.nil?
+          @registry.count_urls + " delicious urls found in our collective collection"
+        else
+          @registry.count_urls_by(user) + " hot links found, added by #{user}"
+        end
       end
 
       def delete_url(context, *args)
@@ -246,6 +255,8 @@ module Slothbot
           when 'clear'
             clear_user_urls context
             nil
+          when 'count'
+            count_urls context, *args
           when 'help'
             @@help.lines.collect { |line| line.strip }.join "\n"
           when 'delete'
@@ -260,7 +271,7 @@ module Slothbot
       end
 
       def find_urls(context, *args)
-	search = args[0..-1].join(' ').to_s
+        search = args[0..-1].join(' ').to_s
         return "You gotta search for something, man!" if search.length == 0
         urls = @registry.each_by_search(search).collect { |url| url.to_s }
         return urls.length > 0 ? urls.join("\n") : "Yeah, that's not a thing."
