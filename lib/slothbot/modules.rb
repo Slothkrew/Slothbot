@@ -219,7 +219,7 @@ module Slothbot
         @registry.each_url { |url| target_url = url if url.url == reference_url }
         if ! target_url.nil?
           if target_url.author == context[:from]
-            @registry.delete_url(reference_url)
+            @registry.delete_url(reference_url, target_url.author)
             "ok"
           else
             "im pretty sure thats #{target_url.author}'s you fascist"
