@@ -196,44 +196,6 @@ module Slothbot
        **************************************************
       eos
 
-      def add_url(context, *args)
-        url, summary, author = args[0], args[1..-1].join(' '), context[:from]
-        @registry.add_url(url, summary: summary.empty? ? nil : summary, author: author)
-      end
-
-      def clear_user_urls(context)
-        @registry.delete_all_by context[:from]
-      end
-
-      def count_urls(context, user=nil)
-        if user.nil?
-          @registry.count_urls + " delicious urls found in our collective collection"
-        else
-          @registry.count_urls_by(user) + " hot links found, added by #{user}"
-        end
-      end
-
-      def delete_url(context, *args)
-        target_url = nil
-        reference_url, _ = args
-        @registry.each_url { |url| target_url = url if url.url == reference_url }
-        if ! target_url.nil?
-          if target_url.author == context[:from]
-            @registry.delete_url(reference_url, target_url.author)
-            "ok"
-          else
-            "im pretty sure thats #{target_url.author}'s you fascist"
-          end
-        else
-          srand
-          [
-            'you need more stickers',
-            'nope',
-            'u crazy'
-          ][rand(3)]
-        end
-      end
-
       def get_help
         @@help.lines.collect { |line| line.strip }.join "\n"
       end
@@ -264,9 +226,65 @@ module Slothbot
           when 'add'
             add_url context, *args
             nil
+          when 'stats'
+            get_stats context
           else
             "lol wat"
           end
+        end
+      end
+
+      def add_url(context, *args)
+        url, summary, author = args[0], args[1..-1].join(' '), context[:from]
+        @registry.add_url(url, summary: summary.empty? ? nil : summary, author: author)
+      end
+
+      def clear_user_urls(context)
+        @registry.delete_all_by context[:from]
+      end
+
+      def count_urls(context, user=nil)
+        if user.nil?
+          @registry.count_urls + " delicious urls found in our collective collection"
+        else
+          @registry.count_urls_by(user) + " hot links found, added by #{user}"
+        end
+      end
+
+      def get_stats(context)
+        total = @registry.count_urls
+        groups = @registry.count_for_authors
+
+        stats_width = 20
+        widest_name = groups.max_by do |row| row[1].length end[1].length
+
+        outstring = ""
+        groups.each do |row|
+          outstring += row[1].rjust(widest_name, ' ')
+          outstring += " |\n"
+          
+        end
+        return outstring
+      end
+
+      def delete_url(context, *args)
+        target_url = nil
+        reference_url, _ = args
+        @registry.each_url { |url| target_url = url if url.url == reference_url }
+        if ! target_url.nil?
+          if target_url.author == context[:from]
+            @registry.delete_url(reference_url, target_url.author)
+            "ok"
+          else
+            "im pretty sure thats #{target_url.author}'s you fascist"
+          end
+        else
+          srand
+          [
+            'you need more stickers',
+            'nope',
+            'u crazy'
+          ][rand(3)]
         end
       end
 

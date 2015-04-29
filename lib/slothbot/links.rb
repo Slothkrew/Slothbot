@@ -63,6 +63,11 @@ module Slothbot
       return @db.execute("SELECT COUNT(*) FROM urls WHERE author=?", [author])[0][0].to_s
     end
 
+    def count_for_authors
+      groups = @db.execute("SELECT COUNT(*) AS count, author FROM urls GROUP BY author ORDER BY COUNT(*) DESC;")
+      return groups
+    end
+
     def delete_url(url, author)
       urls = @db.execute("SELECT * FROM urls WHERE (url=? AND author=?)", [url, author]).collect { |row| unpack_row row }
       @db.execute("DELETE FROM urls WHERE (url=? AND author=?)", [url, author]) if ! urls.empty?

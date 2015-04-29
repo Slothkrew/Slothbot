@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.executables << 'slothbot'
   s.executables << 'wheel'
 
+  s.add_runtime_dependency 'json', '1.8.2'
   s.add_runtime_dependency 'cinch', '2.2.3'
   s.add_runtime_dependency 'sqlite3', '1.3.10'
 
