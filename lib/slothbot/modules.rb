@@ -250,7 +250,7 @@ module Slothbot
             latest_url
           when 'list'
             list_urls context, *args
-          when 'find'
+          when /^find|search$/
             find_urls context, *args
           when 'clear'
             clear_user_urls context
