@@ -3,6 +3,7 @@
 # slothbot
 # sloth bot best bot
 
+require 'json'
 require 'cinch'
 require 'slothbot'
 
@@ -19,6 +20,25 @@ slothbot.bind_command :url, links, :url
 
 bot = Cinch::Bot.new do
   configure do |c|
+    #{
+    #  "server":"slothkrew.com",
+    #  "port":31337,
+    #  "user":"slothbot",
+    #  "nick":"slothbot",
+    #  "password":"god",
+    #  "ssl.use":true
+    #}
+
+    #options = File.read('../config.json')
+    #options = JSON.parse(options)
+
+    #c.server = options['server']
+    #c.port = options['port']
+    #c.user = options['user']
+    #c.nick = options['nick']
+    #c.password = options['password']
+    #c.ssl.use = options['ssl.use']
+    
     #raise NotImplementedError.new "configure this; refer to cinch docs"
   end
 
