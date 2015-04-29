@@ -3,7 +3,7 @@
 # slothbot
 # sloth bot best bot
 
-require 'json'
+#require 'json'
 require 'cinch'
 require 'slothbot'
 
