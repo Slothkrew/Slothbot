@@ -3,7 +3,7 @@
 # slothbot
 # sloth bot best bot
 
-#require 'json'
+require 'json'
 require 'cinch'
 require 'slothbot'
 
@@ -20,24 +20,17 @@ slothbot.bind_command :url, links, :url
 
 bot = Cinch::Bot.new do
   configure do |c|
-    #{
-    #  "server":"slothkrew.com",
-    #  "port":31337,
-    #  "user":"slothbot",
-    #  "nick":"slothbot",
-    #  "password":"god",
-    #  "ssl.use":true
-    #}
+    config_file = # PATH TO JSON CONFIG FILE
+    options = File.read(config_file)
+    options = JSON.parse(options)
 
-    #options = File.read('../config.json')
-    #options = JSON.parse(options)
-
-    #c.server = options['server']
-    #c.port = options['port']
-    #c.user = options['user']
-    #c.nick = options['nick']
-    #c.password = options['password']
-    #c.ssl.use = options['ssl.use']
+    c.server = options['server'] unless options['server'].nil?
+    c.port = options['port'] unless options['port'].nil?
+    c.user = options['user'] unless options['user'].nil?
+    c.nick = options['nick'] unless options['nick'].nil?
+    c.password = options['password'] unless options['password'].nil?
+    c.ssl.use = options['ssl.use'] unless options['ssl.use'].nil?
+    c.channels = options['channels'] unless options['channels'].nil?
     
     #raise NotImplementedError.new "configure this; refer to cinch docs"
   end
