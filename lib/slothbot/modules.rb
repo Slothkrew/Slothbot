@@ -255,15 +255,21 @@ module Slothbot
         total = @registry.count_urls
         groups = @registry.count_for_authors
 
-        stats_width = 20
+        stats_width = 40.0
         widest_name = groups.max_by do |row| row[1].length end[1].length
 
-        outstring = ""
+        outstring = "Let's see who's on top in here!\n"
         groups.each do |row|
           outstring += row[1].rjust(widest_name, ' ')
-          outstring += " |\n"
+          outstring += " |"
           
+          author_percent = (row[0].to_f / total.to_f) * 100.0
+          bar_length = author_percent / (100.0 / stats_width)
+          
+          outstring += ("#" * bar_length).ljust(stats_width, ' ') + "|\n"
         end
+        outstring += " " * widest_name
+        outstring += " +" + ("-" * stats_width) + "+"
         return outstring
       end
 
