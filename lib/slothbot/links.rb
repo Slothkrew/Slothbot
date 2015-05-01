@@ -62,6 +62,11 @@ module Slothbot
     def count_urls_by(author)
       return @db.execute("SELECT COUNT(*) FROM urls WHERE author=?", [author])[0][0].to_s
     end
+    
+    def get_oldest_url
+      url = @db.execute("SELECT * FROM urls ORDER BY timestamp ASC LIMIT 1;").collect do |row| unpack_row row end
+      return url
+    end
 
     def count_for_authors
       groups = @db.execute("SELECT COUNT(*) AS count, author FROM urls GROUP BY author ORDER BY COUNT(*) DESC;")

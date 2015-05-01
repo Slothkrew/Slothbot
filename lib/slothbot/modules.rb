@@ -254,10 +254,12 @@ module Slothbot
       def get_stats(context)
         total = @registry.count_urls
         groups = @registry.count_for_authors
+        oldest_url = @registry.get_oldest_url[0]
 
         stats_width = 40.0
         widest_name = groups.max_by do |row| row[1].length end[1].length
 
+        outstring += " " * widest_name + " "
         outstring = "Let's see who's on top in here!\n"
         groups.each do |row|
           outstring += row[1].rjust(widest_name, ' ')
@@ -266,10 +268,18 @@ module Slothbot
           author_percent = (row[0].to_f / total.to_f) * 100.0
           bar_length = author_percent / (100.0 / stats_width)
           
-          outstring += ("#" * bar_length).ljust(stats_width, ' ') + "|\n"
+          outstring += ("#" * bar_length).ljust(stats_width, ' ') + "| #{author_percent.round(2)}%\n"
         end
         outstring += " " * widest_name
-        outstring += " +" + ("-" * stats_width) + "+"
+        outstring += " +" + ("-" * stats_width) + "+\n"
+        
+        first_time = Time.at oldest_url.timestamp
+        days_ago = (Time.now - first_time) / 60.0 / 60.0 / 24.0
+        links_per_day = total.to_f / days_ago
+        
+        outstring += " " * widest_name + " "
+        outstring += "Links added per day: #{links_per_day.round(2)}"
+        
         return outstring
       end
 
