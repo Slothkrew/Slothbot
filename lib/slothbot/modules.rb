@@ -259,8 +259,8 @@ module Slothbot
         stats_width = 40.0
         widest_name = groups.max_by do |row| row[1].length end[1].length
 
-        outstring += " " * widest_name + " "
-        outstring = "Let's see who's on top in here!\n"
+        outstring = " " * widest_name + " "
+        outstring += "Let's see who's on top in here!\n"
         groups.each do |row|
           outstring += row[1].rjust(widest_name, ' ')
           outstring += " |"
