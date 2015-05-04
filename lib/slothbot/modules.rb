@@ -154,32 +154,48 @@ module Slothbot
         #end
       end
     end
-
+    
     ##
-    # URLs
+    # Points
     #
     # TODO
     # ====
     #
-    # It's become pretty clear that modules need a context containing some
-    # optional information about the module's environment and perhaps a
-    # capabilities contract delivered on initialization. For now I'll just
-    # pass in the name of the user in a hash from cinch.
-    #
-    # * clean up the messy module code
-    # * add catch alls for the commands - the bot should respond helpfully,
-    #   if sarcastically
-    # * add privileged users, whitelists and blacklists.
-    # * add deeper methods of identifying users than their screennames
-    #   (hostname, for instance, or if I can do a client cert handshake
-    #   over DCC or something - that).
-    # * add a sub-command framework for neatly dividing things and
-    #   avoiding presenting them as methods all the time. this would
-    #   really boost metaprogramming flexibility, too.
-    # * add url validation and sanitization - incomplete urls should
-    #   be automatically modified to be up to spec.
-    # * restrict the number that will be listed. allow the use to
-    #   nominate an ID range.
+    # For starters. Make something that works.
+    
+    class Points < Module
+      @@help = <<-eos
+       **************************************************************************
+       | points: award each other internet points                               |
+       |------------------------------------------------------------------------|
+       | !award <nick> <points> [reson] | award someone magical internet points |
+       | !award stats                   | show some nice people in a list       |
+       **************************************************************************
+      eos
+
+      def get_help
+        @@help.lines.collect { |line| line.strip }.join "\n"
+      end
+      
+      def initialize(sqlite3_db_path)
+        super()
+        @registry = InternetPointsService.new sqlite3_db_path
+        define_command :award do |context, *args|
+          action = args.shift
+          case action
+          when nil
+            add_award context, *args
+          when 'stats'
+            get_stats context
+          when 'help'
+            get_help
+          else
+            "lol wut"
+          end
+        end
+      end
+      
+    end
 
     class URLs < Module
       @@help = <<-eos
