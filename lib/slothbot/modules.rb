@@ -183,23 +183,27 @@ module Slothbot
         define_command :award do |context, *args|
           action = args.shift
           case action
-          when 'stats'
-            get_stats context
+          when 'about'
+            about_nick context, *args
           when 'help'
             get_help
           else
-						puts *args.inspect
-						to = action
-						points = *args[0][0]
-						reason = *args[1..-1].join(" ")
-						add_award(context, to, points, reason)
+            puts *args.inspect
+            to = action
+            points = *args[0]
+            reason = *args[1..-1].join(" ")
+            add_award(context, to, points, reason)
           end
         end
       end
 
-			def add_award(context, to, points, reason)
-				return "#{context[:from]} awarded #{to} #{points} internet points #{reason}"
-			end
+      def add_award(context, to, points, reason)
+        return "#{context[:from]} awarded #{to} #{poin internet points #{reason}"
+      end
+
+      def about_nick(context, nick)
+
+      end
       
     end
 
