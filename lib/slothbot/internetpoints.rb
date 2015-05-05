@@ -12,8 +12,8 @@ module Slothbot
       attr_accessor :timestamp
 
       def initialize(from, to, amount, reason, timestamp: Time.now)
-        @from, @to, @amount, @reason, timestamp
-      end
+        @from, @to, @amount, @reason, @timestamp = from, to, amount, reason, timestamp
+				end
 
       def to_s
         if @reason.nil?
@@ -25,19 +25,20 @@ module Slothbot
     end
 
     def initialize(database_path, table: 'points')
-      @url_model_cls = URL
+      @point_model_cls = InternetPoint
       @db_path = database_path
       @db = SQLite3::Database.new @db_path
       if @db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='points'").length < 1
-        @db.execute("CREATE TABLE points (timestamp INTEGER PRIMARY KEY, url TEXT, author TEXT, summary TEXT)")
+        @db.execute("CREATE TABLE points (timestamp INTEGER PRIMARY KEY, 'from' TEXT, 'to' TEXT, 'amount' INTEGER, 'reason' TEXT)")
       end
     end
 
     protected
 
     def unpack_row(row)
-      epoch, url, author, summary = row
-      @url_model_cls.new(url, author: author, summary: summary, timestamp: Time.at(epoch))
+      epoch, from, to, amount, reason = row
+      @point_model_cls.new(url, to: to, from: from, amount: amount, reason: reason, timestamp: Time.at(epoch))
     end
   end
 end
+

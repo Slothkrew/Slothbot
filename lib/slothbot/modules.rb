@@ -169,7 +169,7 @@ module Slothbot
        | points: award each other internet points                               |
        |------------------------------------------------------------------------|
        | !award <nick> <points> [reson] | award someone magical internet points |
-       | !award stats                   | show some nice people in a list       |
+       | !award about <nick>            | show who loves someone                |
        **************************************************************************
       eos
 
@@ -179,21 +179,27 @@ module Slothbot
       
       def initialize(sqlite3_db_path)
         super()
-        @registry = InternetPointsService.new sqlite3_db_path
+        @registry = InternetPointsModule.new sqlite3_db_path
         define_command :award do |context, *args|
           action = args.shift
           case action
-          when nil
-            add_award context, *args
           when 'stats'
             get_stats context
           when 'help'
             get_help
           else
-            "lol wut"
+						puts *args.inspect
+						to = action
+						points = *args[0][0]
+						reason = *args[1..-1].join(" ")
+						add_award(context, to, points, reason)
           end
         end
       end
+
+			def add_award(context, to, points, reason)
+				return "#{context[:from]} awarded #{to} #{points} internet points #{reason}"
+			end
       
     end
 
