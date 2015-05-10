@@ -206,7 +206,10 @@ module Slothbot
       end
 
       def about_nick(context, nick)
-        return "yes."
+        points_taken = @registry.get_points_for nick
+        points_given = @registry.get_points_by nick
+
+        return "#{nick} has so far recieven #{points_taken} internet points and given out #{points_given}."
       end
       
     end

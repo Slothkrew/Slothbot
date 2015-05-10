@@ -47,6 +47,13 @@ module Slothbot
       return points_taken
     end
 
+    def get_points_by(nick)
+      points_given = @db.execute("select sum(amount) from points where [from] = ?", [nick]).first[0]
+      points_given = 0 if points_given.nil?
+
+      return points_given
+    end
+
     def add(from, to, amount, reason)
 
       max_points = 20
