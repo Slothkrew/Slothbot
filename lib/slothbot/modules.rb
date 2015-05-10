@@ -165,12 +165,12 @@ module Slothbot
     
     class Points < Module
       @@help = <<-eos
-       **************************************************************************
-       | points: award each other internet points                               |
-       |------------------------------------------------------------------------|
-       | !award <nick> <points> [reson] | award someone magical internet points |
-       | !award about <nick>            | show who loves someone                |
-       **************************************************************************
+       ***************************************************************************
+       | points: award each other internet points                                |
+       |-------------------------------------------------------------------------|
+       | !award <nick> <points> [reason] | award someone magical internet points |
+       | !award about <nick>             | show who loves someone                |
+       ***************************************************************************
       eos
 
       def get_help
@@ -188,7 +188,6 @@ module Slothbot
           when 'help'
             get_help
           else
-            puts *args.inspect
             to = action
             points = *args[0]
             reason = *args[1..-1].join(" ")
@@ -198,7 +197,12 @@ module Slothbot
       end
 
       def add_award(context, to, points, reason)
-        return "#{context[:from]} awarded #{to} #{poin internet points #{reason}"
+        points = points[0]
+        reason = reason[0]
+        return "That's not a person in this channel!" if not context[:users].include? to.downcase
+        return "You can't award yourself points, silly!" if context[:from].downcase == to.downcase
+        return "C'mon man! You're supposed to GIVE points, not take them!" if points.to_i < 0
+        return @registry.add(context[:from], to, points, reason)
       end
 
       def about_nick(context, nick)
