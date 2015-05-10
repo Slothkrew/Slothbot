@@ -209,7 +209,7 @@ module Slothbot
         points_taken = @registry.get_points_for nick
         points_given = @registry.get_points_by nick
 
-        return "#{nick} has so far recieven #{points_taken} internet points and given out #{points_given}."
+        return "#{nick} has so far recieved #{points_taken} internet points and given out #{points_given}."
       end
       
     end
