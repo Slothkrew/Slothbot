@@ -40,6 +40,13 @@ module Slothbot
       return points_given
     end
 
+    def get_points_for(nick)
+      points_taken = @db.execute("SELECT sum(amount) FROM points where [to] = ?", [nick]).first[0]
+      points_taken = 0 if points_taken.nil?
+
+      return points_taken
+    end
+
     def add(from, to, amount, reason)
 
       max_points = 20
@@ -51,7 +58,12 @@ module Slothbot
       reason = '' if reason.nil?
       @db.execute("INSERT INTO points VALUES(?, ?, ?, ?, ?)", [Time.new.to_i, from, to, amount, reason])
 
-      return InternetPoint.new(from, to, amount, reason).to_s
+      message = InternetPoint.new(from, to, amount, reason).to_s
+      
+      total_points = get_points_for to
+      message += "\n#{to} now has #{total_points} magical internet points :3"
+    
+      return message
     end
 
     protected

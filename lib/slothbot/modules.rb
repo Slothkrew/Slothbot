@@ -206,7 +206,7 @@ module Slothbot
       end
 
       def about_nick(context, nick)
-
+        return "yes."
       end
       
     end
