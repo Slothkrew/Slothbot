@@ -244,7 +244,8 @@ module Slothbot
           when /^latest|newest$/
             latest_url
           when 'list'
-            list_urls context, *args
+            "naw, mang. naw."
+            #list_urls context, *args
           when /^find|search$/
             find_urls context, *args
           when 'clear'
