@@ -199,10 +199,13 @@ module Slothbot
       def add_award(context, to, points, reason)
         points = points[0]
         reason = reason[0]
+        
+        return "Pls. Only positive integers ._." if (points.to_s =~ /^[0-9]+$/).nil?
         return "That's not a person in this channel!" if not context[:users].include? to.downcase
         return "You can't award yourself points, silly!" if context[:from].downcase == to.downcase
-        return "C'mon man! You're supposed to GIVE points, not take them!" if points.to_i < 0
-        return @registry.add(context[:from], to, points, reason)
+        return "C'mon man! You're supposed to GIVE points, not take them!" if points.to_i < 0        
+        
+        return @registry.add(context[:from], to, points.to_i, reason)
       end
 
       def about_nick(context, nick)
