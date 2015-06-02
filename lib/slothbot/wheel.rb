@@ -52,6 +52,7 @@ module Slothbot
         Punishment.new("death by surprise jihad", severity=:high),
         Punishment.new("death by cantrymen", severity=:high),
         Punishment.new("forced to program in ArnoldC for a living", severity=:high),
+        Punishment.new("dot|not hits you with a wrench", severity=:high),
         GulagPunishment.new("gulag $years years"),
       ]
     end
