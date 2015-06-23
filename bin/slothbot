@@ -11,14 +11,14 @@ wheel = Slothbot::Modules::Wheel.new
 currency = Slothbot::Modules::Currency.new
 links = Slothbot::Modules::URLs.new  # PATH TO SQLITE DATABASE
 points = Slothbot::Modules::Points.new  # PATH TO SQLITE DATABASE
-reddit = Slothbot::Modules::Reddit.new
+#reddit = Slothbot::Modules::Reddit.new
 
 slothbot = Slothbot::Bot.new
 slothbot.load_module currency
 slothbot.load_module wheel
 slothbot.load_module links
 slothbot.load_module points
-slothbot.load_module reddit
+#slothbot.load_module reddit
 
 slothbot.bind_command :convert, currency, :convert
 slothbot.bind_command :wheel, wheel, :wheel
