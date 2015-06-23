@@ -343,9 +343,9 @@ module Slothbot
 
       def find_urls(context, *args)
         search = args[0..-1].join(' ').to_s
-        return "You gotta search for something, man!" if search.length == 0
+        return "You gotta search for something!" if search.length == 0
         urls = @registry.each_by_search(search).collect { |url| url.to_s }
-        return urls.length > 0 ? urls.join("\n") : "Yeah, that's not a thing."
+        return urls.length > 0 ? urls.join("\n") : "That's a 404, bro."
       end
 
       def list_urls(context, user=nil)
@@ -363,6 +363,16 @@ module Slothbot
 
       def latest_url
         @registry.latest.to_s
+      end
+    end
+
+    class Reddit < Module
+      def subreddit_regexp
+        return /\/r\/[a-z0-9]+/i
+      end
+
+      def initialize
+
       end
     end
 
