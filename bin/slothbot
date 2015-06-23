@@ -11,11 +11,15 @@ wheel = Slothbot::Modules::Wheel.new
 currency = Slothbot::Modules::Currency.new
 links = Slothbot::Modules::URLs.new  # PATH TO SQLITE DATABASE
 points = Slothbot::Modules::Points.new  # PATH TO SQLITE DATABASE
+reddit = Slothbot::Modules::Reddit.new
+
 slothbot = Slothbot::Bot.new
 slothbot.load_module currency
 slothbot.load_module wheel
 slothbot.load_module links
 slothbot.load_module points
+slothbot.load_module reddit
+
 slothbot.bind_command :convert, currency, :convert
 slothbot.bind_command :wheel, wheel, :wheel
 slothbot.bind_command :url, links, :url
@@ -37,14 +41,18 @@ bot = Cinch::Bot.new do
   end
 
   on :message do |m|
-    if m.message[0] == '!'
+    reg = /\/r\/[a-z0-9]+/i
+    if m.message[0] == '!' || m.message =~ reg #reddit.subreddit_reg
       args = m.message.split
       command = args.shift[1..-1].to_sym
       if slothbot.bound_command? command
         users = bot.channels.collect { |channel| channel.users.each_key.collect { |user| user.nick } }[0]
-        puts "\nUsers:\n"
-        puts users.inspect + "\n"
+        #puts "\nUsers:\n"
+        #puts users.inspect + "\n"
         m.reply slothbot.run_command command, { :from => m.user.to_s, :users => users }, *args
+      else
+        sub = reg.match(m.message)[0]
+        m.reply "For the lazy: https://reddit.com#{sub}"
       end
     end
   end
