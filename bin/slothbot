@@ -9,8 +9,8 @@ require 'slothbot'
 
 wheel = Slothbot::Modules::Wheel.new
 currency = Slothbot::Modules::Currency.new
-links = Slothbot::Modules::URLs.new  "/home/sjums/code/Slothbot/urls.db"
-points = Slothbot::Modules::Points.new  "/home/sjums/code/Slothbot/urls.db"
+links = Slothbot::Modules::URLs.new  # PATH TO SQLITE DATABASE
+points = Slothbot::Modules::Points.new # PATH TO SQLITE DATABASE
 reddit = Slothbot::Modules::Reddit.new
 
 slothbot = Slothbot::Bot.new
@@ -26,7 +26,7 @@ slothbot.bind_command :award, points, :award
 
 bot = Cinch::Bot.new do
   configure do |c|
-    config_file = "/home/sjums/code/Slothbot/config.json"
+    config_file = # PATH TO JSON CONFIG FILE
     options = File.read(config_file)
     options = JSON.parse(options)
 
