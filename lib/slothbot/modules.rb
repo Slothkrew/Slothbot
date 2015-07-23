@@ -125,9 +125,9 @@ module Slothbot
             begin
               quantity, c_a, c_b = args[0].to_i, args[1], args[2]
               quantity_b = @converter.convert quantity, c_a.to_sym, c_b.to_sym
-              return "#{quantity.to_s} #{c_a.upcase} = #{quantity_b.to_s} #{c_b.upcase}"
+              "#{quantity.to_s} #{c_a.upcase} = #{quantity_b.to_s} #{c_b.upcase}"
             rescue Exception  => e
-              return e.inspect
+              e.inspect
               #[
               #  "come on",
               #  "what the hell bro",
