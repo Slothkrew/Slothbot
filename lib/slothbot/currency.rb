@@ -23,7 +23,8 @@ module Slothbot
       queries.sub! '{c_b}', c_b
       puts "#{@fqdn}#{@resource}?#{queries}"
       response = Net::HTTP.get @fqdn, "#{@resource}?#{queries}"
-      puts response
+      puts response.inspect
+      puts "^---response---^"
       if response.strip != '{}'
         value = JSON.parse(response)['rates'][0].to_f * quantity
         value = value * @sloth_multiplier if sloth_mode == :from
