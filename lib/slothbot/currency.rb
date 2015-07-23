@@ -36,8 +36,7 @@ module Slothbot
     end
 
     def initialize
-      #something something DNS
-      @fqdn = 'http://178.62.197.164'  #'http://api.fixer.io'
+      @fqdn = 'api.fixer.io'
       @resource = '/latest'
       @queries = { 'base' => '{c_a}',  'symbols' => '{c_b}'}
       @sloth_multiplier = 2100
