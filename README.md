@@ -5,11 +5,14 @@ up with this bot. Now we can go back to sleeping and living slow.
 
 Features
 ========
-
 * A messy implementation of a currency converter because whatever.
 * A wheel of misfortune.
 * An URL utility thing for sharing links like a sir.
-* (in progress) An award program with fake internet points because we like each other.
+* An award program with fake internet points because we like each other.
+
+Planned features
+========
+* Note system so that we can send notes/messages to people idling in the channel and let them playback when they are back. (!note)
 
 Requirements
 ========
