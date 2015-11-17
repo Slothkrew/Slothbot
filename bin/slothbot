@@ -40,7 +40,7 @@ bot = Cinch::Bot.new do
   end
 
   on :message do |m|
-    if m.message[0] == '!' || m.message =~ reddit.subreddit_regexp
+    if m.message[0] == '!' || m.message.downcase == 'ayy'
       args = m.message.split
       command = args.shift[1..-1].to_sym
       if slothbot.bound_command? command
@@ -49,8 +49,7 @@ bot = Cinch::Bot.new do
         #puts users.inspect + "\n"
         m.reply slothbot.run_command command, { :from => m.user.to_s, :users => users }, *args
       else
-        sub = reddit.subreddit_regexp.match(m.message)[0]
-        m.reply "https://reddit.com#{sub}"
+        m.reply "lmao"
       end
     end
   end

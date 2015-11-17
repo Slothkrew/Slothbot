@@ -367,16 +367,6 @@ module Slothbot
       end
     end
 
-    class Reddit < Module
-      def subreddit_regexp
-        return /\/r\/[a-z0-9]+/i
-      end
-
-      def initialize
-
-      end
-    end
-
     ##
     # Wheel
 
