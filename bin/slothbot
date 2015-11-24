@@ -7,17 +7,20 @@ require 'json'
 require 'cinch'
 require 'slothbot'
 
+bus_throw = Slothbot::Modules::BusThrow.new
 wheel = Slothbot::Modules::Wheel.new
 currency = Slothbot::Modules::Currency.new
 links = Slothbot::Modules::URLs.new  # PATH TO SQLITE DATABASE
 points = Slothbot::Modules::Points.new # PATH TO SQLITE DATABASE
 
 slothbot = Slothbot::Bot.new
+slothbot.load_module bus_throw
 slothbot.load_module currency
 slothbot.load_module wheel
 slothbot.load_module links
 slothbot.load_module points
 
+slothbot.bind_command :backmeup, bus_throw, :backmeup
 slothbot.bind_command :convert, currency, :convert
 slothbot.bind_command :wheel, wheel, :wheel
 slothbot.bind_command :url, links, :url
@@ -39,7 +42,7 @@ bot = Cinch::Bot.new do
   end
 
   on :message do |m|
-    if m.message[0] == '!' || m.message.downcase == 'ayy'
+    if m.message[0] == '!'
       args = m.message.split
       command = args.shift[1..-1].to_sym
       if slothbot.bound_command? command
@@ -47,12 +50,9 @@ bot = Cinch::Bot.new do
         #puts "\nUsers:\n"
         #puts users.inspect + "\n"
         m.reply slothbot.run_command command, { :from => m.user.to_s, :users => users }, *args
-      else
-        m.reply "lmao"
       end
     end
   end
 end
 
 bot.start
-

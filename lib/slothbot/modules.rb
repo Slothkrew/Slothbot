@@ -7,7 +7,7 @@ require_relative 'wheel'
 
 module Slothbot
   module Modules
-    
+
     ##
     # The base class for modules.
     #
@@ -21,7 +21,7 @@ module Slothbot
         def disabled
           nil
         end
-        
+
         def enabled
           nil
         end
@@ -131,8 +131,9 @@ module Slothbot
               [
                 "come on",
                 "what the hell bro",
-                "pls"
-              ][rand(3)]
+                "pls",
+                "ya shitting me!?"
+              ][rand(4)]
             end
           end
         end
@@ -155,7 +156,33 @@ module Slothbot
         #end
       end
     end
-    
+
+    class BusThrow < Module
+      @@help = <<-eos
+      ********************************
+      | busthrow: slothbot best bot. |
+      ********************************
+      eos
+
+      def get_help
+        @@help.lines.collect { |line| line.strip }.join "\n"
+      end
+
+      def initialize
+        super
+        define_command :backmeup do |context, *args|
+          srand
+          responses = [
+            "I am one hundrer percent with #{context[:from]} on this one",
+            "Listen to #{context[:from]}, it's right",
+            "I'm with #{context[:from]}",
+            "#{context[:from]} is the cool sloth, follow the cool sloth"
+          ]
+          return responses[rand(responses.length)]
+        end
+      end
+    end
+
     ##
     # Points
     #
@@ -163,7 +190,7 @@ module Slothbot
     # ====
     #
     # For starters. Make something that works.
-    
+
     class Points < Module
       @@help = <<-eos
        ***************************************************************************
@@ -177,7 +204,7 @@ module Slothbot
       def get_help
         @@help.lines.collect { |line| line.strip }.join "\n"
       end
-      
+
       def initialize(sqlite3_db_path)
         super()
         @registry = InternetPointsModule.new sqlite3_db_path
@@ -200,12 +227,12 @@ module Slothbot
       def add_award(context, to, points, reason)
         points = points[0]
         reason = reason[0]
-        
+
         return "Pls. Only positive integers ._." if (points.to_s =~ /^[0-9]+$/).nil?
         return "That's not a person in this channel!" if not context[:users].include? to.downcase
         return "You can't award yourself points, silly!" if context[:from].downcase == to.downcase
-        return "C'mon man! You're supposed to GIVE points, not take them!" if points.to_i < 0        
-        
+        return "C'mon man! You're supposed to GIVE points, not take them!" if points.to_i < 0
+
         return @registry.add(context[:from], to, points.to_i, reason)
       end
 
@@ -215,7 +242,7 @@ module Slothbot
 
         return "#{nick} has so far recieved #{points_taken} internet points and given out #{points_given}."
       end
-      
+
     end
 
     class URLs < Module
@@ -230,6 +257,7 @@ module Slothbot
        | !url list [nick]         | list urls           |
        | !url find <string>       | list urls by search |
        | !url count [nick]        | you guessed it!     |
+       | !url stats               | print pretty stats  |
        **************************************************
       eos
 
@@ -285,7 +313,7 @@ module Slothbot
         if user.nil?
           @registry.count_urls + " delicious urls found in our collective collection"
         else
-          @registry.count_urls_by(user) + " hot links found, added by #{user}"
+          @registry.count_urls_by(user) + " links found, added by #{user}"
         end
       end
 
@@ -302,22 +330,22 @@ module Slothbot
         groups.each do |row|
           outstring += row[1].rjust(widest_name, ' ')
           outstring += " |"
-          
+
           author_percent = (row[0].to_f / total.to_f) * 100.0
           bar_length = author_percent / (100.0 / stats_width)
-          
+
           outstring += ("#" * bar_length).ljust(stats_width, ' ') + "| #{author_percent.round(2)}%\n"
         end
         outstring += " " * widest_name
         outstring += " +" + ("-" * stats_width) + "+\n"
-        
+
         first_time = Time.at oldest_url.timestamp
         days_ago = (Time.now - first_time) / 60.0 / 60.0 / 24.0
         links_per_day = total.to_f / days_ago
-        
+
         outstring += " " * widest_name + " "
         outstring += "Links added per day: #{links_per_day.round(2)}"
-        
+
         return outstring
       end
 
