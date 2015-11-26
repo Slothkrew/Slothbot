@@ -178,7 +178,7 @@ module Slothbot
             "I'm with #{context[:from]}",
             "#{context[:from]} is the cool sloth, follow the cool sloth"
           ]
-          return responses[rand(responses.length)]
+          responses[rand(responses.length)]
         end
       end
     end
