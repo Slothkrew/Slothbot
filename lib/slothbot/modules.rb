@@ -171,6 +171,7 @@ module Slothbot
       def initialize
         super
         define_command :backmeup do |context, *args|
+          return unless context[:from] == "sjums"
           srand
           responses = [
             "I am one hundrer percent with #{context[:from]} on this one",
