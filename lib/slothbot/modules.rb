@@ -114,7 +114,7 @@ module Slothbot
     class Cyber < Module
       def count url
         puts "counting for #{url}"
-        resp = Net::HTTP.get url
+        resp = Net::HTTP.get URI(url)
         #doc = Nokogiri::HTML(resp)
         count = resp.scan(/cyber/i).length
         puts "count is #{count}"
