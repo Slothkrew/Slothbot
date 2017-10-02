@@ -4,6 +4,7 @@
 
 require_relative 'currency'
 require_relative 'wheel'
+require_relative 'cybercybercyber'
 
 module Slothbot
   module Modules
