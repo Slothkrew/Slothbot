@@ -54,11 +54,7 @@ bot = Cinch::Bot.new do
       end
     elsif m.message.strip =~ /^http(s)?:\/\/(.*?)\.[a-z]{1,}(\/.*?)$/i
       puts "message matches url"
-      args = m.message.split
-      users = bot.channels.collect { |channel| channel.users.each_key.collect { |user| user.nick } }[0]
-      puts "\nUsers:\n"
-      puts users.inspect + "\n"
-      cyberCount = cyber.count { :from => m.user.to_s, :users => users }, *args
+      cyberCount = cyber.count m.message.strip
       m.reply cyberCount if cyberCount != nil
     end
   end

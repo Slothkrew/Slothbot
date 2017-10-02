@@ -110,15 +110,13 @@ module Slothbot
     end
 
     class Cyber < Module
-      def count context, *args
+      def count url
         @cyberCount = CyberCounter.new
-        puts "args.length is #{args.length}"
-        unless args.length <= 0
-          count = @CyberCounter.count args[0]
-          puts "count is #{count}"
-          unless count == 0
-            return "'CYBER' appears #{count} times on that page!"
-          end
+        puts "url is #{url}"
+        count = @CyberCounter.count url
+        puts "count is #{count}"
+        unless count == 0
+          return "'CYBER' appears #{count} times on that page!"
         end
       end
     end
