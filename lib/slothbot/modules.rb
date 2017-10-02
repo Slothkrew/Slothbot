@@ -114,8 +114,10 @@ module Slothbot
         super
         @cyberCount = CyberCounter.new
         define_command :count do |context, *args|
+          puts "args.length is #{args.length}"
           unless args.length <= 0
             count = @CyberCounter.count args[0]
+            puts "count is #{count}"
             unless count == 0
               return "'CYBER' appears #{count} times on that page!"
             end
