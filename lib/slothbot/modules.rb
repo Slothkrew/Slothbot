@@ -4,7 +4,8 @@
 
 require_relative 'currency'
 require_relative 'wheel'
-require_relative 'cybercybercyber'
+require 'net/http'
+require 'nokogiri'
 
 module Slothbot
   module Modules
@@ -112,9 +113,10 @@ module Slothbot
 
     class Cyber < Module
       def count url
-        @cyberCounter = CyberCounter.new
-        puts "url is #{url}"
-        count = @CyberCounter.count url
+        puts "counting for #{url}"
+        resp = Net::HTTP.get url
+        doc = Nokogiri::HTML(resp)
+        count = doc.inner_text.scan(/cyber/i).length
         puts "count is #{count}"
         unless count == 0
           return "'CYBER' appears #{count} times on that page!"
