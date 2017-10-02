@@ -112,7 +112,7 @@ module Slothbot
 
     class Cyber < Module
       def count url
-        @cyberCount = CyberCounter.new
+        @cyberCounter = CyberCounter.new
         puts "url is #{url}"
         count = @CyberCounter.count url
         puts "count is #{count}"
