@@ -12,7 +12,7 @@ wheel = Slothbot::Modules::Wheel.new
 currency = Slothbot::Modules::Currency.new
 links = Slothbot::Modules::URLs.new  # PATH TO SQLITE DATABASE
 points = Slothbot::Modules::Points.new # PATH TO SQLITE DATABASE
-cyber = Slothbot::Modules::CyberCounter.new
+cyber = Slothbot::Modules::Cyber.new
 
 slothbot = Slothbot::Bot.new
 slothbot.load_module bus_throw
