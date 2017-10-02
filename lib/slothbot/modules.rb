@@ -111,6 +111,12 @@ module Slothbot
       attr_accessor :summary
     end
 
+    ##
+    # Cyber cyber cyber
+    # =================
+    #
+    # Count how many times a webpage says cyber
+
     class Cyber < Module
       def count url
         puts "counting for #{url}"

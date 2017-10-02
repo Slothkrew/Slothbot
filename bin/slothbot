@@ -52,8 +52,8 @@ bot = Cinch::Bot.new do
         #puts users.inspect + "\n"
         m.reply slothbot.run_command command, { :from => m.user.to_s, :users => users }, *args
       end
-    elsif m.message.strip =~ /^http(s)?:\/\/(.*?)\.[a-z]{1,}(\/.*?)$/i
-      puts "message matches url"
+    elsif m.message.strip =~ /http(s)?:\/\/(.*)\.[a-z]{1,}[^\s]+/i
+      #puts "message matches url"
       cyberCount = cyber.count m.message.strip
       m.reply cyberCount if cyberCount != nil
     end
