@@ -54,7 +54,7 @@ bot = Cinch::Bot.new do
         #puts users.inspect + "\n"
         m.reply slothbot.run_command command, { :from => m.user.to_s, :users => users }, *args
       end
-    elsif m.message.strip =~ /^http(s)?:\/\/(.*?)\.[a-z]{1,}\/(.*?)$/i
+    elsif m.message.strip =~ /^http(s)?:\/\/(.*?)\.[a-z]{1,}(\/.*?)$/i
       puts "message matches url"
       args = m.message.split
       users = bot.channels.collect { |channel| channel.users.each_key.collect { |user| user.nick } }[0]
