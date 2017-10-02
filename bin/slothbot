@@ -27,6 +27,7 @@ slothbot.bind_command :convert, currency, :convert
 slothbot.bind_command :wheel, wheel, :wheel
 slothbot.bind_command :url, links, :url
 slothbot.bind_command :award, points, :award
+slothbot.bind_command :count_cyber_url, points, :count_cyber_url
 
 bot = Cinch::Bot.new do
   configure do |c|
@@ -59,7 +60,7 @@ bot = Cinch::Bot.new do
       users = bot.channels.collect { |channel| channel.users.each_key.collect { |user| user.nick } }[0]
       puts "\nUsers:\n"
       puts users.inspect + "\n"
-      cyberCount = slothbot.run_command :count, { :from => m.user.to_s, :users => users }, *args
+      cyberCount = slothbot.run_command :count_cyber_url, { :from => m.user.to_s, :users => users }, *args
       m.reply cyberCount if cyberCount != nil
     end
   end
