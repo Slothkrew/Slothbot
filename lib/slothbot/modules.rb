@@ -109,6 +109,21 @@ module Slothbot
       attr_accessor :summary
     end
 
+    class Cyber < Module
+      def initialize
+        super
+        @cyberCount = CyberCounter.new
+        define_command :count do |context, *args|
+          unless args.length <= 0
+            count = @CyberCounter.count args[0]
+            unless count == 0
+              return "'CYBER' appears #{count} times on that page!"
+            end
+          end
+        end
+      end
+    end
+
     ##
     # Currency
     # ========
